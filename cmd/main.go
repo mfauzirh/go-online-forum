@@ -6,6 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mfauzirh/go-online-forum/internal/configs"
 	"github.com/mfauzirh/go-online-forum/internal/handlers/memberships"
+	"github.com/mfauzirh/go-online-forum/pkg/internalsql"
+
+	membershipRepo "github.com/mfauzirh/go-online-forum/internal/repository/memberships"
 )
 
 func main() {
@@ -26,6 +29,13 @@ func main() {
 
 	cfg = configs.Get()
 	log.Println("config", cfg)
+
+	db, err := internalsql.Connect(cfg.Database.DataSourceName)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v\n", err)
+	}
+
+	_ = membershipRepo.NewRepository(db)
 
 	membershipHandler := memberships.NewHandler(r)
 	membershipHandler.RegisterRoute()
