@@ -2,4 +2,4 @@ service:
   port: ":8080"
 
 database:
-  dataSourceName: "root:superSecretPassword@tcp(localhost:3306)/goonlineforum"
+  dataSourceName: "root:superSecretPassword@tcp(localhost:3306)/goonlineforum?parseTime=true"

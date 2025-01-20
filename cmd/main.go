@@ -9,6 +9,7 @@ import (
 	"github.com/mfauzirh/go-online-forum/pkg/internalsql"
 
 	membershipRepo "github.com/mfauzirh/go-online-forum/internal/repository/memberships"
+	membershipSvc "github.com/mfauzirh/go-online-forum/internal/service/memberships"
 )
 
 func main() {
@@ -35,9 +36,10 @@ func main() {
 		log.Fatalf("Failed to initialize database: %v\n", err)
 	}
 
-	_ = membershipRepo.NewRepository(db)
+	membershipRepository := membershipRepo.NewRepository(db)
+	membershipService := membershipSvc.NewService(membershipRepository)
 
-	membershipHandler := memberships.NewHandler(r)
+	membershipHandler := memberships.NewHandler(r, membershipService)
 	membershipHandler.RegisterRoute()
 
 	r.Run(cfg.Service.Port)
