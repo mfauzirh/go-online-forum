@@ -37,7 +37,7 @@ func main() {
 	}
 
 	membershipRepository := membershipRepo.NewRepository(db)
-	membershipService := membershipSvc.NewService(membershipRepository)
+	membershipService := membershipSvc.NewService(cfg, membershipRepository)
 
 	membershipHandler := memberships.NewHandler(r, membershipService)
 	membershipHandler.RegisterRoute()

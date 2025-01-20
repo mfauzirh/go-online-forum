@@ -1,5 +1,6 @@
 service:
   port: ":8080"
+  secretJWT: "supersecretkey"
 
 database:
   dataSourceName: "root:superSecretPassword@tcp(localhost:3306)/goonlineforum?parseTime=true"

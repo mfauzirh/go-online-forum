@@ -3,6 +3,7 @@ package memberships
 import (
 	"context"
 
+	"github.com/mfauzirh/go-online-forum/internal/configs"
 	"github.com/mfauzirh/go-online-forum/internal/model/memberships"
 )
 
@@ -21,6 +22,7 @@ type membershipRepository interface {
 // Fields:
 //   - membershipRepo: The repository implementing membership-related database operations.
 type service struct {
+	cfg            *configs.Config
 	membershipRepo membershipRepository
 }
 
@@ -31,8 +33,9 @@ type service struct {
 //
 // Returns:
 //   - *service: A new service instance to handle membership-related operations.
-func NewService(membershipRepo membershipRepository) *service {
+func NewService(cfg *configs.Config, membershipRepo membershipRepository) *service {
 	return &service{
+		cfg:            cfg,
 		membershipRepo: membershipRepo,
 	}
 }
