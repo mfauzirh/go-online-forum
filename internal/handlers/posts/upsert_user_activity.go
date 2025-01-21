@@ -9,10 +9,10 @@ import (
 	"github.com/mfauzirh/go-online-forum/internal/model/posts"
 )
 
-func (h *Handler) CreateComment(c *gin.Context) {
+func (h *Handler) UpsertUserActivity(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	var request posts.CreateCommentRequest
+	var request posts.UserActivityRequest
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -29,13 +29,12 @@ func (h *Handler) CreateComment(c *gin.Context) {
 
 	userID := c.GetInt64("userID")
 
-	err = h.postSvc.CreateComment(ctx, postID, userID, request)
-	if err != nil {
+	if err := h.postSvc.UpsertUserActivity(ctx, postID, userID, request); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": errors.New("terjadi kesalahan server"),
 		})
 		return
 	}
 
-	c.Status(http.StatusCreated)
+	c.Status(http.StatusOK)
 }
