@@ -13,6 +13,7 @@ type postService interface {
 	CreateComment(ctx context.Context, postID, userID int64, req posts.CreateCommentRequest) error
 	UpsertUserActivity(ctx context.Context, postID, userID int64, request posts.UserActivityRequest) error
 	GetAllPost(ctx context.Context, pageSize, pageIndex int) (posts.GetAllPostResponse, error)
+	GetPostByID(ctx context.Context, postID int64) (*posts.GetPostResponse, error)
 }
 
 type Handler struct {
@@ -34,4 +35,5 @@ func (h *Handler) RegisterRoute() {
 	route.POST("/:postID/comments", h.CreateComment)
 	route.PUT("/:postID/user-activities", h.UpsertUserActivity)
 	route.GET("", h.GetAllPost)
+	route.GET("/:postID", h.GetPostByID)
 }
