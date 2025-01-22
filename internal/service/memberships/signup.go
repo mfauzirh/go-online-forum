@@ -19,7 +19,7 @@ import (
 // Returns:
 //   - error: Returns an error if validation, password hashing, or database insertion fails.
 func (s *service) SignUp(ctx context.Context, req memberships.SignUpRequest) error {
-	existingUser, err := s.membershipRepo.GetUser(ctx, req.Email, req.Username)
+	existingUser, err := s.membershipRepo.GetUser(ctx, req.Email, req.Username, 0)
 	if err != nil {
 		return err
 	}

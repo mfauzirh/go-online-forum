@@ -18,10 +18,10 @@ import (
 // Returns:
 //   - *memberships.UserModel: The user model containing user information if found, or nil if no user matches.
 //   - error: An error if the query fails or the database encounters an issue.
-func (r *repository) GetUser(ctx context.Context, email, username string) (*memberships.UserModel, error) {
-	query := `SELECT id, email, username, password, created_at, updated_at, created_by, updated_by FROM users WHERE email = ? OR username = ?`
+func (r *repository) GetUser(ctx context.Context, email, username string, userID int64) (*memberships.UserModel, error) {
+	query := `SELECT id, email, username, password, created_at, updated_at, created_by, updated_by FROM users WHERE email = ? OR username = ? OR id = ?`
 
-	row := r.db.QueryRowContext(ctx, query, email, username)
+	row := r.db.QueryRowContext(ctx, query, email, username, userID)
 
 	var user memberships.UserModel
 	err := row.Scan(&user.ID, &user.Email, &user.Username, &user.Password, &user.CreatedAt, &user.UpdatedAt, &user.CreatedBy, &user.CreatedBy)

@@ -2,6 +2,7 @@ package memberships
 
 import (
 	"context"
+	"time"
 
 	"github.com/mfauzirh/go-online-forum/internal/configs"
 	"github.com/mfauzirh/go-online-forum/internal/model/memberships"
@@ -13,8 +14,10 @@ import (
 //   - GetUser: Retrieves a user based on email or username.
 //   - CreateUser: Inserts a new user into the database.
 type membershipRepository interface {
-	GetUser(ctx context.Context, email, username string) (*memberships.UserModel, error)
+	GetUser(ctx context.Context, email, username string, userID int64) (*memberships.UserModel, error)
 	CreateUser(ctx context.Context, user memberships.UserModel) error
+	InsertRefereshToken(ctx context.Context, model memberships.RefreshTokenModel) error
+	GetRefreshToken(ctx context.Context, userID int64, now time.Time) (*memberships.RefreshTokenModel, error)
 }
 
 // service provides higher-level operations related to memberships.
